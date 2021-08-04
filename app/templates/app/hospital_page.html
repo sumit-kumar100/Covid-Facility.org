@@ -1,0 +1,33 @@
+{% extends 'app/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="mt-4 border-rounded p-4 shadow">
+        <p class="display-4 text-center">{{ hospital.name }}</p>
+        <hr>
+        <table class="table table-striped   table-bordered">
+            <tbody>
+                <tr>
+                    <td>Address</td>
+                    <td>{{ hospital.address }}</td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td>{{ hospital.phone }}</td>
+                </tr>
+                <tr>
+                    <td>State</td>
+                    <td>{{ hospital.state }}</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>{{ hospital.city }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/" class="btn btn-dark bg-gradient">Back</a>
+    </div>
+    
+</div>
+<br>
+
+{% endblock %}

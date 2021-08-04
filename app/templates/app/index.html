@@ -1,0 +1,106 @@
+{% extends 'app/base.html' %}
+{% block content %}
+{% load custom_tags %}
+
+<br>
+<div class="container-fluid">
+
+    <div class="container">
+        <form action="" id='filterForm' method="GET">
+            <div class="row g-6">
+                <!--States-->
+                <div class="col-4">
+                    <select class="form-select" name="state" aria-label="Default select example" id="state_select">
+                        <option selected value="">State</option>
+                        {% for state in states %}
+                        <option {{ state.id|is_selected:selected_state_id }} value="{{state.id}}">{{ state.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <!--Cities-->
+                <div class="col-4">
+                    <select class="form-select" name="city" aria-label="Default select example" id="city_select">
+                        <option selected value="">City</option>
+                        {% for city in cities %}
+                        <option {{ city.id|is_selected:selected_city_id }} value="{{city.id}}">{{ city.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <!--Services-->
+                <div class="col-4">
+                    <select class="form-select" name="service" aria-label="Default select example" id="service_select">
+                        <option selected value="">Service/Facility</option>
+                        {% for service in services %}
+                        <option {{ service.id|is_selected:selected_service_id }}  value="{{service.id}}">{{ service.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div>
+                <a href="/" class="btn btn-md btn-dark bg-gradient">Reset</a> 
+            </div>
+        </form>
+    </div>
+    <br>
+    <div class="table-container" style="overflow-x:auto;">
+        {% if hospitals %}
+        <table class="table table-bordered text-center" style="overflow-x:auto;">
+            <thead class="table-light">
+                <tr class="text-center">
+                    <th>Hospitals</th>
+                    {% for service in services %}
+                    <th colspan="2">{{ service.title }}</th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th></th>
+                    {% for service in services %}
+                    <th>Total</th>
+                    <th>Available</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                    {% for hospital in hospitals %}
+                    <tr>
+                        <td><a href="/hospital/{{ hospital.id }}/" class="text-decoration-none">{{hospital.name}}</a></td>
+                        {% for avail in hospital.id|get_data %}
+                        <td>{{ avail.total }}</td>
+                        <td class="table-light">{{ avail.available }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-danger text-center">No Result found</div>
+        {% endif %}
+    </div>
+</div>
+<!-- javascript for submiting form automatically -->
+<script>
+window.onload = function () {
+    var state_select = document.getElementById('state_select')
+    var city_select = document.getElementById('city_select')
+    var service_select = document.getElementById('service_select')
+    var form = document.getElementById('filterForm')
+
+    state_select.onchange = function () {
+        form.submit()
+    }
+
+    city_select.onchange = function () {
+        form.submit()
+    }
+
+    service_select.onchange = function () {
+        form.submit()
+    }
+}
+</script>
+<br>
+
+{% endblock %}
